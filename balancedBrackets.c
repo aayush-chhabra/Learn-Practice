@@ -61,7 +61,7 @@ void balanced_brackets(char *s) {
     	if(s[i]==')') pop(a,10);
     }
 
-    print(a, 10);
+    //print(a, 10);
 
     if(a[0]!='.') printf("unbalanced");
     else printf("balanced");
