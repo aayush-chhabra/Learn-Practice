@@ -297,8 +297,119 @@ int heightMax(struct node* root){
 
 // }
 
+struct node* returnParent(struct node * root, struct node* child){
+	
+	if(root == NULL)
+		return NULL;
+	
+	//printf("Here I am: %d\n", root->number);
+	if((root->left) && (root->right)){
+		if(((root->left)->number == child->number)||((root->right)->number == child->number)){
+			//printf("Root's Number: %d", root->number);
+			return root;
+		}	
+	}
+	
+
+	struct node * fromleft = returnParent(root->left, child);
+	struct node * fromRight = returnParent(root->right, child);
+
+	if(fromleft == NULL)
+		return fromRight;
+	else if(fromRight == NULL)
+		return fromleft;
+	else if((fromleft!=NULL)&&(fromRight!=NULL))
+		return fromRight;
+	else
+		return NULL;
+
+}
+
+struct node * succ(struct node* root, int number){
+	struct node* child = searchNode(root, number);
+	struct node* parent = returnParent(root, child);
+
+	if((child->left == NULL) && (child->right == NULL)){
+		if((parent->left)->number == child->number){
+			return parent;
+		}
+		else if((parent->right)->number == child->number){
+			struct node * parentParent = returnParent(root, parent);
+			return parentParent;
+		}
+	}
+	return child->right;
+	//if(temp->right == NULL)
+}
 
 
+int checkBst(struct node* root){
+	
+	// if(root == NULL)
+	// 	return 1;
+
+	// if(((root->left)->number < root->number)&&((root->right)->number > root->number)){
+	// 	return 1;
+	// }
+
+	// else{
+	// 	return 0;
+	// }
+
+	// int l = checkBst(root->left);
+	// int r = checkBst(root->right);
+
+	// if((l)&&(r)){
+	// 	return 1;
+	// }
+	// else{
+	// 	return 0;
+	// }
+	int l, r;
+	if(root == NULL){
+		return 1;
+	}
+	if((root->left)&&(root->right)){
+		struct node* left = findMax(root->left);
+		struct node* right = FindMin(root->right);
+
+		//printf("%d %d\n", left->number, right->number );
+
+		if((left->number < root->number)&&(right->number > root->number)){
+			l = checkBst(root->left);
+			r = checkBst(root->right);
+			//printf("%d %d\n", l , r );
+			if((l)&&(r)){
+				return 1;
+			}
+			return 0;
+
+		}
+		else
+		{
+			return 0;
+		}
+
+
+			
+	}
+}
+
+
+void LCA(struct node* root, int number1, int number2){
+	
+	//struct node* testCase1 = searchNode(root, number1);
+	//struct node* testCase2 = searchNode(root, number2);
+	//struct node* parent1 = returnParent(root, testCase2);
+	struct node* parent1 = returnParent(root, testCase1);
+	struct node* parent2 = returnParent(root, testCase2);
+
+	if(parent1->number == parent2->number){
+		return;
+	}
+
+
+}
 
 
 int main(){
@@ -324,10 +435,77 @@ int main(){
 
 	//print1(root);
 
+	LCA(root, 32, 17);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// struct node* temp = (struct node*) malloc(sizeof(struct node));
+	// temp -> number = 10;
+	// temp -> left = NULL;
+	// temp -> right = NULL;
+
+	// struct node* temp1 = (struct node*) malloc(sizeof(struct node));
+	// temp1 -> number = 3;
+	// temp1 -> left = NULL;
+	// temp1 -> right = NULL;
+
+	// struct node* temp3 = (struct node*) malloc(sizeof(struct node));
+	// temp3 -> number = 19;
+	// temp3 -> left = NULL;
+	// temp3 -> right = NULL;
+
+	// struct node* temp4 = (struct node*) malloc(sizeof(struct node));
+	// temp4 -> number = 2;
+	// temp4 -> left = NULL;
+	// temp4 -> right = NULL;
+
+	// struct node* temp5 = (struct node*) malloc(sizeof(struct node));
+	// temp5 -> number = 12;
+	// temp5 -> left = NULL;
+	// temp5 -> right = NULL;
+
+	// root = temp;
+	// root->left = temp1;
+	// root->right = temp3;
+	// (root->left)->left = temp4;
+	// (root->left)->right = temp5;
+
+
+	// int z = checkBst(root);
+	// printf("I am here: %d\n", z);
+
+
+
+	
+
+
+	
+
+
+
+
+
+
+	//struct node * ptr = succ(root, 9);
+
+	//printf("\nThis is the fucking final Answer: %d\n", ptr -> number);
+
 
 	// int max = 0, min=100;
-	int z = heightMax(root);
-	printf("%d\n", z);
+	// int z = heightMax(root);
+	// printf("%d\n", z);
 	// heightMin(root, &min, -1);
 
 	// printf("%d\n",max - min);
