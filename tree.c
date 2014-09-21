@@ -298,21 +298,37 @@ int heightMax(struct node* root){
 // }
 
 struct node* returnParent(struct node * root, struct node* child){
-	
+	struct node * fromleft, * fromRight;
+
+	//printf("%d %d\n", root->number, child->number);
 	if(root == NULL)
 		return NULL;
-	
-	//printf("Here I am: %d\n", root->number);
-	if((root->left) && (root->right)){
-		if(((root->left)->number == child->number)||((root->right)->number == child->number)){
-			//printf("Root's Number: %d", root->number);
+
+
+	if(root->right){
+		if((root->right)->number == child->number){
+			//printf("Hellooo\n");
 			return root;
-		}	
+		}
 	}
 	
+	if(root->left){
+		if((root->left)->number == child->number){
+			return root;
+		}
+	}
 
-	struct node * fromleft = returnParent(root->left, child);
-	struct node * fromRight = returnParent(root->right, child);
+	if(root->left)
+		fromleft = returnParent(root->left, child);
+	if(root->right)
+		fromRight = returnParent(root->right, child);
+	
+
+
+
+
+	
+
 
 	if(fromleft == NULL)
 		return fromRight;
@@ -325,22 +341,22 @@ struct node* returnParent(struct node * root, struct node* child){
 
 }
 
-struct node * succ(struct node* root, int number){
-	struct node* child = searchNode(root, number);
-	struct node* parent = returnParent(root, child);
+// struct node * succ(struct node* root, int number){
+// 	struct node* child = searchNode(root, number);
+// 	struct node* parent = returnParent(root, child);
 
-	if((child->left == NULL) && (child->right == NULL)){
-		if((parent->left)->number == child->number){
-			return parent;
-		}
-		else if((parent->right)->number == child->number){
-			struct node * parentParent = returnParent(root, parent);
-			return parentParent;
-		}
-	}
-	return child->right;
-	//if(temp->right == NULL)
-}
+// 	if((child->left == NULL) && (child->right == NULL)){
+// 		if((parent->left)->number == child->number){
+// 			return parent;
+// 		}
+// 		else if((parent->right)->number == child->number){
+// 			struct node * parentParent = returnParent(root, parent);
+// 			return parentParent;
+// 		}
+// 	}
+// 	return child->right;
+// 	//if(temp->right == NULL)
+// }
 
 
 int checkBst(struct node* root){
@@ -396,17 +412,47 @@ int checkBst(struct node* root){
 }
 
 
-void LCA(struct node* root, int number1, int number2){
+// void LCA(struct node* root, struct node* child1, struct node* parentOfChild2, int* num){
 	
-	//struct node* testCase1 = searchNode(root, number1);
-	//struct node* testCase2 = searchNode(root, number2);
-	//struct node* parent1 = returnParent(root, testCase2);
-	struct node* parent1 = returnParent(root, testCase1);
-	struct node* parent2 = returnParent(root, testCase2);
+// 	//printf("32, 23 %d\n", child1->number);
 
-	if(parent1->number == parent2->number){
-		return;
+// 	struct node* parent1 = returnParent(root, child1);	
+// 	printf("%d\n", parent1->number);
+
+
+// 	if(parent1 -> number == root->number){
+// 		*num = root-> number;
+// 		return;
+// 	}
+
+// 	if(parent1 -> number == parentOfChild2->number){
+// 		*num = parent1->number;
+// 		return;
+// 	}
+// 	//printf("%d\n", parent1->number);
+// 	LCA(root, parent1, parentOfChild2, num);
+// 	struct node* parent2 = returnParent(root, parentOfChild2);
+// 	LCA(root, parent1, parent2, num);
+// }
+
+
+struct node* LCA(struct node* root, struct node* child1, struct node* child2){
+
+	if( root == NULL )
+		return NULL;
+
+	if((root-> number == child1->number)||(root-> number == child2->number)){
+		return root;
 	}
+
+	struct node * L = LCA(root->left, child1, child2);
+	struct node * R = LCA(root->right, child1, child2);
+
+
+
+	// if(L&&R) return root;
+	// else L ? L : R;
+
 
 
 }
@@ -424,6 +470,7 @@ int main(){
 	// memset(visited, -1, 40);
 	// memset(un, -1, 40);
 	root = NULL;
+	int a;
 	addNode(&root, 10);
 	addNode(&root, 3);
 	addNode(&root, 9);
@@ -432,10 +479,22 @@ int main(){
 	addNode(&root, 23);
 	addNode(&root, 17);
 	addNode(&root, 32);
+	// addNode(&root, 1);
+	// addNode(&root, 12);
+	// addNode(&root, 13);
+	// addNode(&root, 11);
 
 	//print1(root);
 
-	LCA(root, 32, 17);
+	struct node * temp1 = searchNode(root, 32);
+	struct node * temp2 = searchNode(root, 17);
+	//struct node * temp3 = searchNode(root, 32);
+	
+	struct node * t = LCA(root, temp1, temp2);
+	//struct node* parent1 = returnParent(root, temp3);
+	//printf("%d", parent1->number);
+
+	printf("I am here: %d\n", t->number);
 
 
 
