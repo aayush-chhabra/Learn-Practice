@@ -1,7 +1,7 @@
 from TwitterSearch import *
 try:
     tso = TwitterSearchOrder() # create a TwitterSearchOrder object
-    tso.setKeywords(['jennifer lawrence leaked']) # let's define all words we would like to have a look for
+    tso.setKeywords(['ALS Ice Bucket']) # let's define all words we would like to have a look for
     tso.setLanguage('en') # we want to see German tweets only
     tso.setCount(7) # please dear Mr Twitter, only give us 7 results per page
     tso.setIncludeEntities(False) # and don't give us all those entity information
